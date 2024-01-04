@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dhuha Time Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dhuha Time Calculator</h1>
+
+  <label for="subuh-time">Subuh Time:</label>
+  <input type="time" id="subuh-time" required>
+
+  <label for="sunrise-time">Sunrise Time:</label>
+  <input type="time" id="sunrise-time" required>
+
+  <button onclick="calculateDhuhaTime()">Calculate Dhuha Time</button>
+
+  <h2 id="result">Dhuha Time: </h2>
+
+  <script>
+    function calculateDhuhaTime() {
+      const subuhTimeInput = document.getElementById('subuh-time').value;
+      const sunriseTimeInput = document.getElementById('sunrise-time').value;
+
+      const subuhMinutes = convertToMinutes(subuhTimeInput);
+      const sunriseMinutes = convertToMinutes(sunriseTimeInput);
+
+      const dhuhaOffsetMinutes = (sunriseMinutes - subuhMinutes) / 3 + 1; // Additional 1 minute
+      const dhuhaMinutes = sunriseMinutes + dhuhaOffsetMinutes;
+
+      const dhuhaTime = convertToTimeFormat(dhuhaMinutes);
+
+      document.getElementById('result').textContent = `Dhuha Time: ${dhuhaTime}`;
+    }
+
+    function convertToMinutes(timeStr) {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return hours * 60 + minutes;
+    }
+
+    function convertToTimeFormat(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return `${String(hours).padStart(2, '0')}:${String(remainingMinutes).padStart(2, '0')}`;
+    }
+  </script>
+
+</body>
+</html>
